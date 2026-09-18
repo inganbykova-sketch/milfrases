@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>02 · Familia y casa — Mil frases en inglés</title>
+<link rel="stylesheet" href="lesson.css" />
+</head>
+<body>
+<script>
+window.LESSON_TITLE = "02 · Familia y casa";
+window.LESSON_BACK  = "index.html";
+
+/* ============================================================
+   СЛОВАРЬ ТЕМЫ
+   Формат: "английская форма в нижнем регистре": ["перевод", "pos"]
+   POS-коды: n=сущ, v=глаг, a=прил, d=нареч, p=местоим, r=предлог,
+             t=артикль, i=межд, m=числит, f=фраза
+   Пунктуация в ключах НЕ нужна — lesson.js сам её отбрасывает.
+   Если слово есть в COMMON_DICT (I, you, the, is, a, …) — не пиши его.
+   ============================================================ */
+window.LESSON_DICT = {
+  /* --- семья --- */
+  "mother":     ["madre",       "n"],
+  "father":     ["padre",       "n"],
+  "brother":    ["hermano",     "n"],
+  "sister":     ["hermana",     "n"],
+  "sisters":    ["hermanas",    "n"],
+  "grandmother":["abuela",      "n"],
+  "grandfather":["abuelo",      "n"],
+  "uncle":      ["tío",         "n"],
+  "aunt":       ["tía",         "n"],
+  "cousin":     ["primo",       "n"],
+  "parents":    ["padres",      "n"],
+  "family":     ["familia",     "n"],
+  "friend":     ["amigo",       "n"],
+  "pet":        ["mascota",     "n"],
+  "pets":       ["mascotas",    "n"],
+  "cat":        ["gato",        "n"],
+  "dog":        ["perro",       "n"],
+
+  /* --- числа --- */
+  "one":        ["un",          "m"],
+  "two":        ["dos",         "m"],
+  "three":      ["tres",        "m"],
+  "four":       ["cuatro",      "m"],
+  "five":       ["cinco",       "m"],
+  "seven":      ["siete",       "m"],
+
+  /* --- глаголы --- */
+  "have":       ["tengo",       "v"],
+  "works":      ["trabaja",     "v"],
+  "love":       ["aman",        "v"],
+  "cooking":    ["cocinar",     "v"],
+  "lives":      ["vive",        "v"],
+  "wears":      ["lleva",       "v"],
+  "keep":       ["guardamos",   "v"],
+  "need":       ["necesito",    "v"],
+  "clean":      ["limpiar",     "v"],
+  "makes":      ["hace",        "v"],
+  "waters":     ["riega",       "v"],
+  "help":       ["ayudo",       "v"],
+  "opens":      ["abre",        "v"],
+  "live":       ["vivo",        "v"],
+  "like":       ["me gusta",    "v"],
+  "close":      ["cerrar",      "v"],
+
+  /* --- прилагательные --- */
+  "kind":       ["amable",      "a"],
+  "best":       ["mejor",       "a"],
+  "happy":      ["feliz",       "a"],
+  "long":       ["largo",       "a"],
+  "brown":      ["castaño",     "a"],
+  "tall":       ["alto",        "a"],
+  "strong":     ["fuerte",      "a"],
+  "little":     ["pequeño",     "a"],
+  "blue":       ["azul",        "a"],
+  "big":        ["grande",      "a"],
+  "older":      ["mayor",       "a"],
+  "younger":    ["menor",       "a"],
+  "curly":      ["rizado",      "a"],
+  "small":      ["pequeño",     "a"],
+  "friendly":   ["amigable",    "a"],
+  "shy":        ["tímido",      "a"],
+  "patient":    ["paciente",    "a"],
+  "funny":      ["divertido",   "a"],
+  "clever":     ["listo",       "a"],
+  "serious":    ["serio",       "a"],
+  "generous":   ["generoso",    "a"],
+  "talkative":  ["hablador",    "a"],
+  "quiet":      ["tranquilo",   "a"],
+  "nice":       ["bonito",      "a"],
+  "new":        ["nuevo",       "a"],
+  "comfortable":["cómodo",      "a"],
+  "soft":       ["suave",       "a"],
+  "second":     ["segundo",     "a"],
+  "nearby":     ["cerca",       "d"],
+
+  /* --- наречия --- */
+  "always":     ["siempre",     "d"],
+  "quite":      ["bastante",    "d"],
+  "down":       ["al final",    "d"],
+  "around":     ["alrededor",   "r"],
+  "please":     ["por favor",   "d"],
+  "every":      ["cada",        "a"],
+  "evening":    ["tarde",       "n"],
+  "morning":    ["mañana",      "n"],
+
+  /* --- существительные --- */
+  "bank":       ["banco",       "n"],
+  "hair":       ["pelo",        "n"],
+  "eyes":       ["ojos",        "n"],
+  "smile":      ["sonrisa",     "n"],
+  "glasses":    ["gafas",       "n"],
+  "beard":      ["barba",       "n"],
+  "person":     ["persona",     "n"],
+  "home":       ["hogar",       "n"],
+  "kitchen":    ["cocina",      "n"],
+  "bedroom":    ["dormitorio",  "n"],
+  "bathroom":   ["baño",        "n"],
+  "hall":       ["pasillo",     "n"],
+  "balcony":    ["balcón",      "n"],
+  "garden":     ["jardín",      "n"],
+  "house":      ["casa",        "n"],
+  "sofa":       ["sofá",        "n"],
+  "room":       ["habitación",  "n"],
+  "view":       ["vista",       "n"],
+  "garage":     ["garaje",      "n"],
+  "bedrooms":   ["dormitorios", "n"],
+  "table":      ["mesa",        "n"],
+  "lamp":       ["lámpara",     "n"],
+  "plates":     ["platos",      "n"],
+  "cupboard":   ["armario",     "n"],
+  "fridge":     ["nevera",      "n"],
+  "television": ["televisión",  "n"],
+  "chair":      ["silla",       "n"],
+  "chairs":     ["sillas",      "n"],
+  "floor":      ["suelo",       "n"],
+  "shoes":      ["zapatos",     "n"],
+  "door":       ["puerta",      "n"],
+  "window":     ["ventana",     "n"],
+  "dishes":     ["platos",      "n"],
+  "bed":        ["cama",        "n"],
+  "rubbish":    ["basura",      "n"],
+  "plants":     ["plantas",     "n"],
+  "laundry":    ["colada",      "n"],
+  "neighbourhood":["barrio",    "n"],
+  "park":       ["parque",      "n"],
+  "supermarket":["supermercado","n"],
+  "neighbours": ["vecinos",     "n"],
+  "school":     ["escuela",     "n"],
+  "street":     ["calle",       "n"],
+  "bus":        ["autobús",     "n"],
+  "stop":       ["parada",      "n"],
+  "corner":     ["esquina",     "n"],
+  "café":       ["cafetería",   "n"],
+  "bakery":     ["panadería",   "n"],
+  "night":      ["noche",       "n"],
+  "Mondays":    ["lunes",       "n"],
+  "Sundays":    ["domingos",    "n"],
+  "Saturdays":  ["sábados",     "n"],
+  "than":       ["que",         "r"],
+  "behind":     ["detrás de",   "r"],
+  "near":       ["cerca de",    "r"],
+
+  /* --- многословные выражения (пишутся как одно) --- */
+  "next to":         ["al lado de",       "r"],
+  "living room":     ["salón",            "n"],
+  "bedside table":   ["mesita de noche",  "n"],
+  "washing machine": ["lavadora",         "n"],
+  "take off":        ["quitarse",         "v"],
+  "take out":        ["sacar",            "v"],
+  "turn on":         ["encender",         "v"],
+  "tidy up":         ["recoger",          "v"],
+  "there is":        ["hay",              "v"],
+  "there are":       ["hay",              "v"],
+  "a lot":           ["mucho",            "d"],
+  "at night":        ["de noche",         "d"],
+  "next door":       ["de al lado",       "d"],
+  "welcome":         ["bienvenido",       "i"],
+  "let's":           ["vamos a",          "v"]
+};
+
+/* ============================================================
+   ФРАЗЫ — просто строки!
+   lesson.js сам разобьёт их на слова и найдёт перевод в словаре.
+   ============================================================ */
+window.LESSON_TABS = [
+  {id:'L1', name:'1 · Miembros de la familia', phrases:[
+    "This is my mother.",
+    "I have one brother and two sisters.",
+    "My father works in a bank.",
+    "My grandmother is very kind.",
+    "He is my best friend.",
+    "Do you have any pets?",
+    "Yes, I have a cat.",
+    "My parents love cooking.",
+    "My uncle lives in London.",
+    "We are a happy family."
+  ]},
+  {id:'L2', name:'2 · Describir personas', phrases:[
+    "She has long brown hair.",
+    "He is very tall and strong.",
+    "My little sister is five.",
+    "He has blue eyes and a big smile.",
+    "She wears glasses.",
+    "My cousin is a doctor.",
+    "He is older than me.",
+    "She is younger than my brother.",
+    "My friend has curly hair.",
+    "He has a small beard."
+  ]},
+  {id:'L3', name:'3 · Carácter y personalidad', phrases:[
+    "She is very kind and friendly.",
+    "He is a bit shy.",
+    "My mother is patient.",
+    "My father is funny.",
+    "My brother is very clever.",
+    "She is always happy.",
+    "He is quite serious.",
+    "My grandmother is generous.",
+    "My friend is talkative.",
+    "She is a quiet person."
+  ]},
+  {id:'L4', name:'4 · La casa — habitaciones', phrases:[
+    "Welcome to my home!",
+    "The kitchen is next to the living room.",
+    "My bedroom is on the second floor.",
+    "The bathroom is down the hall.",
+    "We have a small balcony.",
+    "The garden is behind the house.",
+    "There is a big sofa in the living room.",
+    "My room has a nice view.",
+    "The garage is next to the house.",
+    "Our house has three bedrooms."
+  ]},
+  {id:'L5', name:'5 · Muebles y electrodomésticos', phrases:[
+    "There is a big table in the kitchen.",
+    "The lamp is on the bedside table.",
+    "We keep the plates in this cupboard.",
+    "The washing machine is new.",
+    "Turn on the light, please.",
+    "This chair is very comfortable.",
+    "The fridge is in the kitchen.",
+    "There are four chairs around the table.",
+    "My bed is very soft.",
+    "The television is in the living room."
+  ]},
+  {id:'L6', name:'6 · Tareas del hogar', phrases:[
+    "I need to clean the floor.",
+    "Please take off your shoes at the door.",
+    "Could you close the window?",
+    "I do the dishes every evening.",
+    "My sister makes her bed every morning.",
+    "We take out the rubbish on Mondays.",
+    "He waters the plants on Sundays.",
+    "She does the laundry on Saturdays.",
+    "I help my mother in the kitchen.",
+    "Let's tidy up the living room."
+  ]},
+  {id:'L7', name:'7 · Mi barrio', phrases:[
+    "I live in a quiet neighbourhood.",
+    "There is a park near my house.",
+    "The supermarket is nearby.",
+    "My neighbours are friendly.",
+    "There is a school on my street.",
+    "The bus stop is around the corner.",
+    "I like my neighbourhood a lot.",
+    "There is a small café next door.",
+    "The bakery opens at seven.",
+    "My street is very quiet at night."
+  ]}
+];
+</script>
+<script src="lesson.js"></script>
+</body>
+</html>
