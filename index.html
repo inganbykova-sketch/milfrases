@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mil frases en inglés</title>
+<meta name="theme-color" content="#6b5ce7" />
+<style>
+  :root{--bg:#f6f5fb;--card:#fff;--line:#e7e6f0;--accent:#6b5ce7;--accent-2:#a855f7;--text:#12121f;--muted:#6b7192;
+    --shadow-sm:0 1px 2px rgba(20,20,60,.05),0 4px 12px -6px rgba(20,20,60,.10);
+    --shadow-lg:0 6px 16px rgba(20,20,60,.08),0 24px 48px -22px rgba(20,20,60,.28);}
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--text);
+    background:radial-gradient(900px 500px at 0% -20%,#e9e5ff 0%,transparent 55%),
+      radial-gradient(700px 500px at 100% 0%,#d8f0fa 0%,transparent 50%),
+      radial-gradient(800px 600px at 50% 110%,#ffe9f3 0%,transparent 60%),var(--bg);
+    padding:32px 16px 48px;min-height:100vh;-webkit-font-smoothing:antialiased;font-size:14px;}
+  .wrap{max-width:820px;margin:0 auto}
+  .hero{text-align:center;margin-bottom:20px}
+  .hero-badge{display:inline-flex;align-items:center;gap:6px;font-size:.66rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:100px;background:rgba(107,92,231,.10);color:var(--accent);margin-bottom:10px;border:1px solid rgba(107,92,231,.15)}
+  .hero-badge::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px rgba(107,92,231,.20);animation:pulse 2s ease-in-out infinite}
+  @keyframes pulse{50%{box-shadow:0 0 0 5px rgba(107,92,231,.05)}}
+  h1{font-size:clamp(1.35rem,2.6vw,1.75rem);margin:0;letter-spacing:-0.02em;font-weight:800;line-height:1.15;background:linear-gradient(135deg,#1a1c2e 0%,#4a3fbf 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+  .hero-tagline{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:5px 12px 5px 10px;border-radius:100px;background:linear-gradient(135deg,rgba(107,92,231,.10),rgba(168,85,247,.10));border:1px dashed rgba(107,92,231,.35);color:var(--accent);font-size:.78rem;font-weight:700}
+  .hero-tagline .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px rgba(107,92,231,.18)}
+  .hero-tagline em{font-style:normal;font-weight:800;color:var(--accent-2)}
+  .principle{position:relative;margin:22px 0 26px;padding:22px 24px 22px 76px;background:linear-gradient(135deg,rgba(107,92,231,.06) 0%,rgba(168,85,247,.05) 100%);border:1px solid rgba(107,92,231,.15);border-radius:16px}
+  .principle-icon{position:absolute;left:22px;top:50%;transform:translateY(-50%);font-size:2rem;opacity:.9}
+  .principle-title{font-size:clamp(1.05rem,2.2vw,1.25rem);font-weight:800;line-height:1.3;margin:0 0 8px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px}
+  .principle-title em{font-style:normal}
+  .principle-title .arrow{color:var(--accent);opacity:.7;font-weight:700}
+  .principle-desc{font-size:.82rem;color:var(--muted);line-height:1.5;margin:0;max-width:520px}
+  .stats{display:flex;justify-content:center;gap:22px;margin:16px auto 0;flex-wrap:wrap}
+  .stat-num{font-size:1.05rem;font-weight:800;letter-spacing:-0.02em;background:linear-gradient(135deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:2px}
+  .stat-label{font-size:.62rem;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;font-weight:600}
+  .grid{display:flex;flex-direction:column;gap:10px;margin-top:22px}
+  .card{position:relative;display:flex;align-items:center;gap:14px;padding:14px 16px 14px 14px;background:var(--card);border:1px solid var(--line);border-radius:12px;text-decoration:none;color:inherit;box-shadow:var(--shadow-sm);transition:transform .2s,box-shadow .2s,border-color .2s;overflow:hidden;isolation:isolate}
+  .card::before{content:"";position:absolute;inset:-1px;border-radius:inherit;background:radial-gradient(120% 100% at 0% 50%,var(--glow,rgba(107,92,231,.20)) 0%,transparent 55%);opacity:0;transition:opacity .24s;z-index:-1;pointer-events:none}
+  .card:hover::before{opacity:1}
+  .card:hover{transform:translateX(4px);box-shadow:var(--shadow-lg);border-color:transparent}
+  .card::after{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent);border-radius:12px 0 0 12px}
+  .card-icon{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;background:var(--icon-bg);flex:0 0 auto;transition:transform .22s}
+  .card:hover .card-icon{transform:scale(1.08) rotate(-3deg)}
+  .card-body{flex:1 1 auto;min-width:0}
+  .card-title{font-size:.95rem;font-weight:700;margin:0 0 3px;line-height:1.25}
+  .card-desc{color:var(--muted);font-size:.75rem;line-height:1.4;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .card-right{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+  .badge{display:inline-flex;align-items:center;gap:4px;font-size:.65rem;font-weight:700;padding:3px 9px;border-radius:20px;background:var(--icon-bg);color:var(--accent);white-space:nowrap}
+  .badge svg{width:9px;height:9px}
+  .open-hint{display:inline-flex;align-items:center;gap:3px;font-size:.72rem;font-weight:600;color:var(--muted)}
+  .card:hover .open-hint{color:var(--accent)}
+  .open-hint .arrow{display:inline-block;transition:transform .22s}
+  .card:hover .open-hint .arrow{transform:translateX(4px)}
+  footer{text-align:center;margin-top:32px;color:var(--muted);font-size:.7rem;line-height:1.55}
+  .footer-divider{width:36px;height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:0 auto 12px;border-radius:2px}
+  @media (max-width:520px){
+    body{padding:20px 12px 40px}
+    h1{font-size:1.2rem}
+    .hero-tagline{font-size:.72rem;padding:4px 10px 4px 9px}
+    .principle{padding:18px}
+    .principle-icon{position:static;transform:none;display:block;margin-bottom:8px;font-size:1.6rem}
+    .card{padding:12px;gap:10px}
+    .card-icon{width:38px;height:38px;font-size:1.2rem}
+    .card-title{font-size:.88rem}
+    .card-desc{font-size:.7rem}
+    .badge{display:none}
+    .open-hint .label{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="hero-badge">Aplicaciones educativas</div>
+    <h1>Mil frases en inglés</h1>
+    <div class="hero-tagline"><span class="dot" aria-hidden="true"></span>¡Solo <em>10 frases</em> al día!</div>
+  </header>
+
+  <section class="principle" aria-label="Principio del aprendizaje">
+    <div class="principle-icon" aria-hidden="true">🎧</div>
+    <h2 class="principle-title">
+      <span>Escucha</span><span class="arrow" aria-hidden="true">→</span>
+      <span>Repite</span><span class="arrow" aria-hidden="true">→</span>
+      <em>Memoriza</em>
+    </h2>
+    <p class="principle-desc">Reconocer las palabras de oído es la base de todo idioma. Antes de leerlas y escribirlas, aprende a distinguirlas en el habla.</p>
+  </section>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-num">10</div><div class="stat-label">Temas</div></div>
+    <div class="stat"><div class="stat-num">70</div><div class="stat-label">Lecciones</div></div>
+    <div class="stat"><div class="stat-num">700</div><div class="stat-label">Frases</div></div>
+  </div>
+
+  <main class="grid" id="appsGrid"></main>
+
+  <footer>
+    <div class="footer-divider"></div>
+    <p>Puedes instalar la aplicación en tu teléfono: ábrela y elige <strong>«Añadir a la pantalla de inicio»</strong>.</p>
+  </footer>
+</div>
+
+<script>
+const APPS = [
+  {title:"01 · Saludos y presentaciones", description:"Saludos, presentaciones, cortesía y datos personales.", icon:"👋", link:"01-greetings.html", color:"#6b5ce7", iconBg:"rgba(107,92,231,.10)", glow:"rgba(107,92,231,.22)"},
+  {title:"02 · Familia y casa", description:"Familia, carácter, habitaciones, muebles y tareas.", icon:"🏠", link:"02-family-home.html", color:"#db2777", iconBg:"rgba(219,39,119,.10)", glow:"rgba(219,39,119,.22)"},
+  {title:"03 · Comida y compras", description:"Comidas, frutas, restaurantes, supermercado y precios.", icon:"🍎", link:"03-food-shopping.html", color:"#16a34a", iconBg:"rgba(22,163,74,.10)", glow:"rgba(22,163,74,.22)"},
+  {title:"04 · Ciudad y transporte", description:"Direcciones, transporte público, aeropuerto y hotel.", icon:"🚌", link:"04-city-transport.html", color:"#0891b2", iconBg:"rgba(8,145,178,.10)", glow:"rgba(8,145,178,.22)"},
+  {title:"05 · Escuela y trabajo", description:"Aula, asignaturas, profesiones y oficina.", icon:"📚", link:"05-school-work.html", color:"#d97706", iconBg:"rgba(217,119,6,.10)", glow:"rgba(217,119,6,.22)"},
+  {title:"06 · Tiempo libre y aficiones", description:"Deportes, música, cine, juegos y planes.", icon:"🎮", link:"06-free-time.html", color:"#9333ea", iconBg:"rgba(147,51,234,.10)", glow:"rgba(147,51,234,.22)"},
+  {title:"07 · Viajes y vacaciones", description:"Reservas, aeropuerto, hotel, turismo y problemas.", icon:"✈️", link:"07-travel.html", color:"#dc2626", iconBg:"rgba(220,38,38,.10)", glow:"rgba(220,38,38,.22)"},
+  {title:"08 · Salud y cuerpo", description:"Cuerpo, síntomas, médico, farmacia y vida sana.", icon:"🩺", link:"08-health-body.html", color:"#4f46e5", iconBg:"rgba(79,70,229,.10)", glow:"rgba(79,70,229,.22)"},
+  {title:"09 · Sentimientos y opiniones", description:"Emociones, opiniones, consejos y planes.", icon:"😊", link:"09-feelings.html", color:"#e11d48", iconBg:"rgba(225,29,72,.10)", glow:"rgba(225,29,72,.22)"},
+  {title:"10 · Phrasal verbs e idioms", description:"Verbos compuestos, expresiones y frases hechas.", icon:"🎓", link:"10-idioms.html", color:"#3a3d4d", iconBg:"rgba(58,61,77,.10)", glow:"rgba(58,61,77,.22)"}
+];
+
+const grid = document.getElementById('appsGrid');
+const check = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+
+APPS.forEach(app=>{
+  const c = document.createElement('a');
+  c.className = 'card';
+  c.href = app.link;
+  c.style.setProperty('--accent', app.color);
+  c.style.setProperty('--icon-bg', app.iconBg);
+  c.style.setProperty('--glow', app.glow);
+  c.innerHTML = `
+    <div class="card-icon">${app.icon}</div>
+    <div class="card-body">
+      <h2 class="card-title">${app.title}</h2>
+      <p class="card-desc">${app.description}</p>
+    </div>
+    <div class="card-right">
+      <span class="badge">${check}70</span>
+      <span class="open-hint"><span class="label">Abrir</span> <span class="arrow">→</span></span>
+    </div>`;
+  grid.appendChild(c);
+});
+</script>
+</body>
+</html>

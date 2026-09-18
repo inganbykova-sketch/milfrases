@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>01 · Saludos y presentaciones — Mil frases en inglés</title>
+<link rel="stylesheet" href="lesson.css" />
+</head>
+<body>
+<script>
+window.LESSON_TITLE = "01 · Saludos y presentaciones";
+window.LESSON_BACK  = "index.html";
+const W = (en,es,pos)=>({en,es,pos});
+const P = (text,words)=>({text,words});
+
+window.LESSON_TABS = [
+{id:'L1', name:'1 · Saludos básicos', phrases:[
+  P("Hello! How are you?",[W("Hello!","¡Hola!","interjection"),W("How","Cómo","adverb"),W("are","estás","verb"),W("you?","tú?","pronoun")]),
+  P("Good morning, everyone!",[W("Good morning,","Buenos días,","interjection"),W("everyone!","a todos!","pronoun")]),
+  P("Good afternoon, madam.",[W("Good afternoon,","Buenas tardes,","interjection"),W("madam.","señora.","noun")]),
+  P("Good evening, sir.",[W("Good evening,","Buenas noches,","interjection"),W("sir.","señor.","noun")]),
+  P("I'm fine, thank you.",[W("I'm","Estoy","verb"),W("fine,","bien,","adjective"),W("thank you.","gracias.","interjection")]),
+  P("And you? How are you?",[W("And you?","¿Y tú?","pronoun"),W("How","Cómo","adverb"),W("are","estás","verb"),W("you?","tú?","pronoun")]),
+  P("Nice to see you again.",[W("Nice","Encantado","adjective"),W("to see","de ver","verb"),W("you","te","pronoun"),W("again.","otra vez.","adverb")]),
+  P("How is it going?",[W("How","Cómo","adverb"),W("is","va","verb"),W("it","todo","pronoun"),W("going?","?","verb")]),
+  P("Long time no see!",[W("Long time","Cuánto tiempo","noun"),W("no","sin","adverb"),W("see!","verte!","verb")]),
+  P("What's up?",[W("What's","Qué","pronoun"),W("up?","pasa?","adverb")])
+]},
+{id:'L2', name:'2 · Presentaciones', phrases:[
+  P("My name is Anna.",[W("My","Mi","pronoun"),W("name","nombre","noun"),W("is","es","verb"),W("Anna.","Anna.","noun")]),
+  P("What's your name?",[W("What's","Cómo","pronoun"),W("your","te","pronoun"),W("name?","llamas?","noun")]),
+  P("I'm from Spain.",[W("I'm","Soy","verb"),W("from","de","preposition"),W("Spain.","España.","noun")]),
+  P("Where are you from?",[W("Where","De dónde","adverb"),W("are","eres","verb"),W("you","tú","pronoun"),W("from?","?","preposition")]),
+  P("Nice to meet you.",[W("Nice","Encantado","adjective"),W("to meet","de conocer","verb"),W("you.","te.","pronoun")]),
+  P("This is my friend Tom.",[W("This","Este","pronoun"),W("is","es","verb"),W("my","mi","pronoun"),W("friend","amigo","noun"),W("Tom.","Tom.","noun")]),
+  P("How old are you?",[W("How old","Cuántos años","adverb"),W("are","tienes","verb"),W("you?","?","pronoun")]),
+  P("I'm twenty years old.",[W("I'm","Tengo","verb"),W("twenty","veinte","numeral"),W("years old.","años.","noun")]),
+  P("What do you do?",[W("What","A qué","pronoun"),W("do","te","verb"),W("you","tú","pronoun"),W("do?","dedicas?","verb")]),
+  P("I'm a student.",[W("I'm","Soy","verb"),W("a","un","article"),W("student.","estudiante.","noun")])
+]},
+{id:'L3', name:'3 · Despedidas', phrases:[
+  P("Goodbye! See you soon!",[W("Goodbye!","¡Adiós!","interjection"),W("See you","Hasta","verb"),W("soon!","pronto!","adverb")]),
+  P("See you later!",[W("See you","Hasta","verb"),W("later!","luego!","adverb")]),
+  P("See you tomorrow!",[W("See you","Hasta","verb"),W("tomorrow!","mañana!","adverb")]),
+  P("Good night, sleep well.",[W("Good night,","Buenas noches,","interjection"),W("sleep","duerme","verb"),W("well.","bien.","adverb")]),
+  P("Take care of yourself!",[W("Take care","Cuídate","verb"),W("of","a","preposition"),W("yourself!","ti mismo!","pronoun")]),
+  P("Have a nice day!",[W("Have","Ten","verb"),W("a","un","article"),W("nice","buen","adjective"),W("day!","día!","noun")]),
+  P("Have a good weekend!",[W("Have","Ten","verb"),W("a","un","article"),W("good","buen","adjective"),W("weekend!","fin de semana!","noun")]),
+  P("It was nice talking to you.",[W("It","Fue","pronoun"),W("was","un","verb"),W("nice","placer","adjective"),W("talking","hablar","verb"),W("to you.","contigo.","pronoun")]),
+  P("Talk to you soon.",[W("Talk","Hablamos","verb"),W("to you","contigo","pronoun"),W("soon.","pronto.","adverb")]),
+  P("Bye for now!",[W("Bye","Adiós","interjection"),W("for","por","preposition"),W("now!","ahora!","adverb")])
+]},
+{id:'L4', name:'4 · Cortesía', phrases:[
+  P("Please, sit down.",[W("Please,","Por favor,","interjection"),W("sit","siéntate","verb"),W("down.","abajo.","adverb")]),
+  P("Thank you very much.",[W("Thank you","Gracias","interjection"),W("very","muy","adverb"),W("much.","mucho.","adverb")]),
+  P("You're welcome.",[W("You're","De","verb"),W("welcome.","nada.","adjective")]),
+  P("Excuse me, may I pass?",[W("Excuse me,","Disculpe,","interjection"),W("may I","puedo","verb"),W("pass?","pasar?","verb")]),
+  P("I'm sorry, it's my fault.",[W("I'm","Lo","verb"),W("sorry,","siento,","adjective"),W("it's","es","verb"),W("my","mi","pronoun"),W("fault.","culpa.","noun")]),
+  P("No problem at all.",[W("No","Sin","article"),W("problem","problema","noun"),W("at all.","alguno.","adverb")]),
+  P("Of course, with pleasure.",[W("Of course,","Por supuesto,","adverb"),W("with","con","preposition"),W("pleasure.","placer.","noun")]),
+  P("That's very kind of you.",[W("That's","Eso es","verb"),W("very","muy","adverb"),W("kind","amable","adjective"),W("of you.","de tu parte.","pronoun")]),
+  P("May I help you?",[W("May I","Puedo","verb"),W("help","ayudar","verb"),W("you?","te?","pronoun")]),
+  P("Could you say that again?",[W("Could you","Podrías","verb"),W("say","decir","verb"),W("that","eso","pronoun"),W("again?","otra vez?","adverb")])
+]},
+{id:'L5', name:'5 · Preguntas personales', phrases:[
+  P("Where do you live?",[W("Where","Dónde","adverb"),W("do","vives","verb"),W("you","tú","pronoun"),W("live?","?","verb")]),
+  P("I live in Madrid.",[W("I","Yo","pronoun"),W("live","vivo","verb"),W("in","en","preposition"),W("Madrid.","Madrid.","noun")]),
+  P("Do you have any brothers?",[W("Do you","Tienes","verb"),W("have","tienes","verb"),W("any","algunos","article"),W("brothers?","hermanos?","noun")]),
+  P("I have one sister.",[W("I","Yo","pronoun"),W("have","tengo","verb"),W("one","una","numeral"),W("sister.","hermana.","noun")]),
+  P("What's your favourite colour?",[W("What's","Cuál","pronoun"),W("your","es tu","pronoun"),W("favourite","color","adjective"),W("colour?","favorito?","noun")]),
+  P("My favourite colour is blue.",[W("My","Mi","pronoun"),W("favourite","color","adjective"),W("colour","favorito","noun"),W("is","es","verb"),W("blue.","el azul.","adjective")]),
+  P("Do you like sports?",[W("Do you","Te","verb"),W("like","gustan","verb"),W("sports?","los deportes?","noun")]),
+  P("I love football.",[W("I","Me","pronoun"),W("love","encanta","verb"),W("football.","el fútbol.","noun")]),
+  P("What time is it?",[W("What time","Qué hora","adverb"),W("is","es","verb"),W("it?","?","pronoun")]),
+  P("It's half past three.",[W("It's","Son","verb"),W("half past","las tres y media.","adverb"),W("three.","","numeral")])
+]},
+{id:'L6', name:'6 · Países y nacionalidades', phrases:[
+  P("I'm Spanish.",[W("I'm","Soy","verb"),W("Spanish.","español.","adjective")]),
+  P("She's English.",[W("She's","Ella es","verb"),W("English.","inglesa.","adjective")]),
+  P("He's from France.",[W("He's","Él es","verb"),W("from","de","preposition"),W("France.","Francia.","noun")]),
+  P("Are you American?",[W("Are","Eres","verb"),W("you","tú","pronoun"),W("American?","americano?","adjective")]),
+  P("I live in Germany.",[W("I","Yo","pronoun"),W("live","vivo","verb"),W("in","en","preposition"),W("Germany.","Alemania.","noun")]),
+  P("They're from Italy.",[W("They're","Ellos son","verb"),W("from","de","preposition"),W("Italy.","Italia.","noun")]),
+  P("My friend is Japanese.",[W("My","Mi","pronoun"),W("friend","amigo","noun"),W("is","es","verb"),W("Japanese.","japonés.","adjective")]),
+  P("I speak Spanish and English.",[W("I","Yo","pronoun"),W("speak","hablo","verb"),W("Spanish","español","noun"),W("and","y","preposition"),W("English.","inglés.","noun")]),
+  P("Do you speak French?",[W("Do you","Hablas","verb"),W("speak","hablar","verb"),W("French?","francés?","noun")]),
+  P("I'm learning English.",[W("I'm","Estoy","verb"),W("learning","aprendiendo","verb"),W("English.","inglés.","noun")])
+]},
+{id:'L7', name:'7 · Teléfono y edades', phrases:[
+  P("What's your phone number?",[W("What's","Cuál","pronoun"),W("your","es tu","pronoun"),W("phone","número","noun"),W("number?","de teléfono?","noun")]),
+  P("It's 555-1234.",[W("It's","Es","verb"),W("555-1234.","el 555-1234.","numeral")]),
+  P("My birthday is in May.",[W("My","Mi","pronoun"),W("birthday","cumpleaños","noun"),W("is","es","verb"),W("in","en","preposition"),W("May.","mayo.","noun")]),
+  P("When is your birthday?",[W("When","Cuándo","adverb"),W("is","es","verb"),W("your","tu","pronoun"),W("birthday?","cumpleaños?","noun")]),
+  P("I'm thirty years old.",[W("I'm","Tengo","verb"),W("thirty","treinta","numeral"),W("years old.","años.","noun")]),
+  P("She's only eight.",[W("She's","Ella tiene","verb"),W("only","solo","adverb"),W("eight.","ocho.","numeral")]),
+  P("We are the same age.",[W("We","Nosotros","pronoun"),W("are","tenemos","verb"),W("the same","la misma","adjective"),W("age.","edad.","noun")]),
+  P("He's older than me.",[W("He's","Él es","verb"),W("older","mayor","adjective"),W("than","que","preposition"),W("me.","yo.","pronoun")]),
+  P("My sister is younger.",[W("My","Mi","pronoun"),W("sister","hermana","noun"),W("is","es","verb"),W("younger.","menor.","adjective")]),
+  P("How old is your brother?",[W("How old","Cuántos años","adverb"),W("is","tiene","verb"),W("your","tu","pronoun"),W("brother?","hermano?","noun")])
+]}
+];
+</script>
+<script src="lesson.js"></script>
+</body>
+</html>
