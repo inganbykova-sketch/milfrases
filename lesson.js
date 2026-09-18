@@ -219,32 +219,51 @@
     document.querySelectorAll('.card').forEach(c=>{c.classList.toggle('translated',flipAll);const b=c.querySelector('.card-num');if(b)b.classList.toggle('open',flipAll);});
   });
 
+  /* =========================================================
+     SIDEBAR RENDER — ИСПРАВЛЕНО: учитываем sidebarScope
+     ========================================================= */
   function renderSidebar(){
     sideList.innerHTML='';
     document.querySelectorAll('.selected-words').forEach(e=>e.innerHTML='');
     document.querySelectorAll('.pw').forEach(e=>e.classList.remove('active','in-phrase','pending'));
     document.querySelectorAll('.pw-es').forEach(e=>e.classList.remove('active','in-phrase'));
-    const model=[];
-    TABS.forEach(t=>{
-      const ts=tabState(t.id);
-      Object.keys(ts.selections||{}).forEach(ck=>{
-        const c=Number(ck);(ts.selections[ck]||[]).forEach(w=>model.push({tabId:t.id,c,w,kind:'word'}));
+
+    const currentTid = TABS[activeTabIdx].id;
+    const tabsToRender = sidebarScope === 'all'
+      ? TABS.map(t => t.id)
+      : [currentTid];
+
+    const model = [];
+    tabsToRender.forEach(tid => {
+      const ts = tabState(tid);
+      Object.keys(ts.selections||{}).forEach(ck => {
+        const c = Number(ck);
+        (ts.selections[ck]||[]).forEach(w => model.push({tabId:tid, c, w, kind:'word'}));
       });
-      Object.keys(ts.phrases||{}).forEach(ck=>{
-        const c=Number(ck);(ts.phrases[ck]||[]).forEach(g=>model.push({tabId:t.id,c,indices:g,kind:'phrase'}));
+      Object.keys(ts.phrases||{}).forEach(ck => {
+        const c = Number(ck);
+        (ts.phrases[ck]||[]).forEach(g => model.push({tabId:tid, c, indices:g, kind:'phrase'}));
       });
     });
-    model.forEach(m=>{if(m.kind==='word')appendWordItem(m.tabId,m.c,m.w);else appendPhraseItem(m.tabId,m.c,m.indices);});
-    applyOrder(curState().order||{});
-    const collapsed=curState().collapsed||{};
-    Object.keys(collapsed).forEach(pk=>{
-      const g=sideList.querySelector(`.side-group[data-pos="${pk}"]`);
-      if(g&&collapsed[pk])g.classList.add('collapsed');
+
+    model.forEach(m => {
+      if(m.kind === 'word') appendWordItem(m.tabId, m.c, m.w);
+      else appendPhraseItem(m.tabId, m.c, m.indices);
     });
+
+    if(sidebarScope === 'current') applyOrder(curState().order || {});
+
+    const collapsed = curState().collapsed || {};
+    Object.keys(collapsed).forEach(pk => {
+      const g = sideList.querySelector(`.side-group[data-pos="${pk}"]`);
+      if(g && collapsed[pk]) g.classList.add('collapsed');
+    });
+
     updateSidebarMeta();
-    document.querySelectorAll('.card').forEach(card=>refreshSpanishHighlight(card));
+    document.querySelectorAll('.card').forEach(card => refreshSpanishHighlight(card));
     updateScopeCount();
   }
+
   function appendWordItem(tabId,c,w){
     const tab=TABS.find(t=>t.id===tabId);if(!tab)return;
     const pair=tab.phrases[c]?.words[w];if(!pair)return;
