@@ -1,6 +1,5 @@
 (function(){
-  // Версия сборки — для проверки в консоли браузера
-  const BUILD = 'v3-scope-fix';
+  const BUILD = 'v4-short-format';
   console.log('%c[lesson.js] build ' + BUILD, 'color:#6b5ce7;font-weight:bold');
 
   const POS = {
@@ -16,10 +15,119 @@
     phrase:{label:'Phrases',color:'#3a3d4d',bg:'rgba(58,61,77,.06)'}
   };
   const POS_ORDER = ['phrase','noun','verb','adjective','adverb','pronoun','preposition','article','interjection','numeral'];
-  const TABS = window.LESSON_TABS || [];
+
+  /* ============================================================
+     POS-коды для краткой записи в словаре
+     ============================================================ */
+  const POS_CODES = {
+    n:'noun', v:'verb', a:'adjective', d:'adverb', p:'pronoun',
+    r:'preposition', t:'article', i:'interjection', m:'numeral', f:'phrase'
+  };
+
+  /* ============================================================
+     Общие слова — их не нужно переписывать в каждом файле
+     ============================================================ */
+  const COMMON_DICT = {
+    "I":["Yo","p"], "you":["tú","p"], "he":["él","p"], "she":["ella","p"],
+    "it":["ello","p"], "we":["nosotros","p"], "they":["ellos","p"],
+    "my":["mi","p"], "your":["tu","p"], "his":["su","p"], "her":["su","p"],
+    "our":["nuestro","p"], "their":["su","p"], "me":["mí","p"],
+    "is":["es","v"], "are":["son","v"], "am":["soy","v"], "was":["era","v"],
+    "were":["eran","v"], "be":["ser","v"], "been":["sido","v"],
+    "have":["tengo","v"], "has":["tiene","v"], "had":["tenía","v"],
+    "do":["hacer","v"], "does":["hace","v"], "did":["hizo","v"],
+    "can":["poder","v"], "could":["podría","v"], "will":["voluntad","v"],
+    "would":["gustaría","v"], "should":["debería","v"],
+    "a":["un","t"], "an":["un","t"], "the":["el","t"],
+    "in":["en","r"], "on":["en","r"], "at":["en","r"],
+    "to":["a","r"], "of":["de","r"], "for":["para","r"],
+    "with":["con","r"], "from":["de","r"], "by":["por","r"],
+    "and":["y","r"], "but":["pero","r"], "or":["o","r"],
+    "not":["no","d"], "very":["muy","d"], "well":["bien","d"],
+    "yes":["sí","i"], "no":["no","i"], "hello":["hola","i"],
+    "here":["aquí","d"], "there":["allí","d"], "now":["ahora","d"],
+    "today":["hoy","d"], "tomorrow":["mañana","d"], "yesterday":["ayer","d"]
+  };
+
+  /* ============================================================
+     Поиск слова в словаре — с игнорированием пунктуации и регистра
+     ============================================================ */
+  function findInDict(phrase, D){
+    if(D[phrase]) return {key: phrase, val: D[phrase]};
+    const stripped = phrase.replace(/[.,!?;:…]+$/, '');
+    if(stripped && D[stripped]) return {key: stripped, val: D[stripped]};
+    const lower = phrase.toLowerCase();
+    if(D[lower]) return {key: lower, val: D[lower]};
+    const strippedLower = stripped.toLowerCase();
+    if(strippedLower && D[strippedLower]) return {key: strippedLower, val: D[strippedLower]};
+    return null;
+  }
+
+  /* ============================================================
+     Разбор строк в объекты {text, words}
+     ============================================================ */
+  function expandTabs(rawTabs, userDict){
+    const D = Object.assign({}, COMMON_DICT, userDict);
+    const unknown = new Set();
+
+    const result = rawTabs.map(tab => ({
+      id: tab.id,
+      name: tab.name,
+      phrases: (tab.phrases || []).map(item => {
+        // Уже объект {text, words} — старая форма, оставляем как есть
+        if(item && typeof item === 'object' && item.text && Array.isArray(item.words)){
+          return item;
+        }
+        const text = String(item);
+        const tokens = text.split(/\s+/).filter(Boolean);
+        const words = [];
+        let i = 0;
+        while(i < tokens.length){
+          let matched = false;
+          // Пробуем самое длинное совпадение (до 4 слов) — для "Good morning," / "next to"
+          for(let len = Math.min(4, tokens.length - i); len >= 1; len--){
+            const candidate = tokens.slice(i, i + len).join(' ');
+            const hit = findInDict(candidate, D);
+            if(hit){
+              const [es, code] = hit.val;
+              words.push({
+                en: candidate,
+                es: es,
+                pos: POS_CODES[code] || 'noun'
+              });
+              i += len;
+              matched = true;
+              break;
+            }
+          }
+          if(!matched){
+            const token = tokens[i];
+            words.push({en: token, es: token, pos: 'noun'});
+            unknown.add(token);
+            i++;
+          }
+        }
+        return {text, words};
+      })
+    }));
+
+    if(unknown.size){
+      console.warn('[lesson.js] Не найдены в словаре:');
+      console.warn([...unknown]);
+      console.warn('Добавь их в window.LESSON_DICT — например: "birthday": ["cumpleaños","n"]');
+    }
+    return result;
+  }
+
+  const RAW_TABS = window.LESSON_TABS || [];
+  const USER_DICT = window.LESSON_DICT || {};
+  const TABS = expandTabs(RAW_TABS, USER_DICT);
   const TITLE = window.LESSON_TITLE || 'Lesson';
   const BACK = window.LESSON_BACK || 'index.html';
 
+  /* ============================================================
+     Скелет страницы
+     ============================================================ */
   const skeleton = `
     <a class="back-link" href="${BACK}">← Todas las lecciones</a>
     <h1 id="lessonTitle"></h1>
@@ -103,7 +211,7 @@
   let voices=[], activeTabIdx=0, currentCard=null, currentSideItem=null, speakingWordEl=null;
   let readAllActive=false, playAllActive=false, draggedSideItem=null, ctrlHeld=false;
   let pendingByCard=Object.create(null);
-  let sidebarScope='current';           // 'current' | 'all'
+  let sidebarScope='current';
   let flipAll=false;
   let lastClick={cardIdx:-1,wordIdx:-1,time:0};
   let STATE={};
@@ -153,12 +261,10 @@
   sidebarToggle.addEventListener('click',()=>setSidebarOpen(true));
   sidebarClose.addEventListener('click',()=>setSidebarOpen(false));
 
-  // === Scope toggle ===
   function setScope(s){
     if(s!=='current' && s!=='all') s='current';
     sidebarScope=s;
     scopeBtns.forEach(b=>b.classList.toggle('active',b.dataset.scope===s));
-    console.log('[lesson.js] scope →', s);
     renderSidebar();
   }
   scopeBtns.forEach(btn=>btn.addEventListener('click',()=>{
@@ -234,11 +340,6 @@
     document.querySelectorAll('.card').forEach(c=>{c.classList.toggle('translated',flipAll);const b=c.querySelector('.card-num');if(b)b.classList.toggle('open',flipAll);});
   });
 
-  /* =========================================================
-     SIDEBAR RENDER
-     - scope === 'current'  → только текущая вкладка (10 фраз)
-     - scope === 'all'      → все вкладки файла (все 70 фраз)
-     ========================================================= */
   function renderSidebar(){
     sideList.innerHTML='';
     document.querySelectorAll('.selected-words').forEach(e=>e.innerHTML='');
@@ -246,15 +347,7 @@
     document.querySelectorAll('.pw-es').forEach(e=>e.classList.remove('active','in-phrase'));
 
     const currentTid = TABS[activeTabIdx].id;
-
-    // Явное ветвление без тернарника — чтобы не было сюрпризов
-    let tabsToRender;
-    if(sidebarScope === 'all'){
-      tabsToRender = TABS.map(t => t.id);
-    } else {
-      tabsToRender = [currentTid];
-    }
-    console.log('[lesson.js] renderSidebar — scope=' + sidebarScope + ' tabs=' + tabsToRender.join(','));
+    const tabsToRender = sidebarScope === 'all' ? TABS.map(t => t.id) : [currentTid];
 
     const model = [];
     tabsToRender.forEach(tid => {
@@ -274,7 +367,6 @@
       else appendPhraseItem(m.tabId, m.c, m.indices);
     });
 
-    // Перетаскивание — только в режиме "This lesson"
     if(sidebarScope === 'current') applyOrder(curState().order || {});
 
     const collapsed = curState().collapsed || {};
@@ -617,7 +709,6 @@
     let idx=0;
     try{const v=localStorage.getItem(TAB_KEY);if(v!==null)idx=Math.max(0,Math.min(TABS.length-1,parseInt(v,10)||0));}catch(e){}
     activeTabIdx=idx;
-    // Всегда стартуем с 'current'
     sidebarScope='current';
     scopeBtns.forEach(b=>b.classList.toggle('active',b.dataset.scope==='current'));
     buildTabsBar();renderPhrases();renderSidebar();loadVoices();fillVoices();
