@@ -1,4 +1,8 @@
 (function(){
+  // Версия сборки — для проверки в консоли браузера
+  const BUILD = 'v3-scope-fix';
+  console.log('%c[lesson.js] build ' + BUILD, 'color:#6b5ce7;font-weight:bold');
+
   const POS = {
     noun:{label:'Noun',color:'#2563eb',bg:'rgba(37,99,235,.10)'},
     verb:{label:'Verb',color:'#dc2626',bg:'rgba(220,38,38,.10)'},
@@ -98,7 +102,9 @@
 
   let voices=[], activeTabIdx=0, currentCard=null, currentSideItem=null, speakingWordEl=null;
   let readAllActive=false, playAllActive=false, draggedSideItem=null, ctrlHeld=false;
-  let pendingByCard=Object.create(null), sidebarScope='current', flipAll=false;
+  let pendingByCard=Object.create(null);
+  let sidebarScope='current';           // 'current' | 'all'
+  let flipAll=false;
   let lastClick={cardIdx:-1,wordIdx:-1,time:0};
   let STATE={};
 
@@ -147,11 +153,20 @@
   sidebarToggle.addEventListener('click',()=>setSidebarOpen(true));
   sidebarClose.addEventListener('click',()=>setSidebarOpen(false));
 
-  scopeBtns.forEach(btn=>btn.addEventListener('click',()=>{
-    const s=btn.dataset.scope;if(s===sidebarScope)return;sidebarScope=s;
+  // === Scope toggle ===
+  function setScope(s){
+    if(s!=='current' && s!=='all') s='current';
+    sidebarScope=s;
     scopeBtns.forEach(b=>b.classList.toggle('active',b.dataset.scope===s));
+    console.log('[lesson.js] scope →', s);
     renderSidebar();
+  }
+  scopeBtns.forEach(btn=>btn.addEventListener('click',()=>{
+    const s=btn.dataset.scope;
+    if(s===sidebarScope)return;
+    setScope(s);
   }));
+
   function countTab(tid){const ts=tabState(tid);let n=0;Object.values(ts.selections||{}).forEach(a=>n+=a.length);Object.values(ts.phrases||{}).forEach(gs=>gs.forEach(g=>n+=g.length));return n;}
   function updateScopeCount(){if(!scopeCountAll)return;let t=0;TABS.forEach(x=>t+=countTab(x.id));scopeCountAll.textContent=t||'';}
 
@@ -220,7 +235,9 @@
   });
 
   /* =========================================================
-     SIDEBAR RENDER — ИСПРАВЛЕНО: учитываем sidebarScope
+     SIDEBAR RENDER
+     - scope === 'current'  → только текущая вкладка (10 фраз)
+     - scope === 'all'      → все вкладки файла (все 70 фраз)
      ========================================================= */
   function renderSidebar(){
     sideList.innerHTML='';
@@ -229,9 +246,15 @@
     document.querySelectorAll('.pw-es').forEach(e=>e.classList.remove('active','in-phrase'));
 
     const currentTid = TABS[activeTabIdx].id;
-    const tabsToRender = sidebarScope === 'all'
-      ? TABS.map(t => t.id)
-      : [currentTid];
+
+    // Явное ветвление без тернарника — чтобы не было сюрпризов
+    let tabsToRender;
+    if(sidebarScope === 'all'){
+      tabsToRender = TABS.map(t => t.id);
+    } else {
+      tabsToRender = [currentTid];
+    }
+    console.log('[lesson.js] renderSidebar — scope=' + sidebarScope + ' tabs=' + tabsToRender.join(','));
 
     const model = [];
     tabsToRender.forEach(tid => {
@@ -251,6 +274,7 @@
       else appendPhraseItem(m.tabId, m.c, m.indices);
     });
 
+    // Перетаскивание — только в режиме "This lesson"
     if(sidebarScope === 'current') applyOrder(curState().order || {});
 
     const collapsed = curState().collapsed || {};
@@ -593,6 +617,9 @@
     let idx=0;
     try{const v=localStorage.getItem(TAB_KEY);if(v!==null)idx=Math.max(0,Math.min(TABS.length-1,parseInt(v,10)||0));}catch(e){}
     activeTabIdx=idx;
+    // Всегда стартуем с 'current'
+    sidebarScope='current';
+    scopeBtns.forEach(b=>b.classList.toggle('active',b.dataset.scope==='current'));
     buildTabsBar();renderPhrases();renderSidebar();loadVoices();fillVoices();
     setSidebarOpen(isSidebarOpen());
   })();
