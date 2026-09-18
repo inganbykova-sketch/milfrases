@@ -52,6 +52,18 @@
   .card:hover .open-hint{color:var(--accent)}
   .open-hint .arrow{display:inline-block;transition:transform .22s}
   .card:hover .open-hint .arrow{transform:translateX(4px)}
+
+  /* ================= Coming soon (disabled cards) ================= */
+  .card.coming-soon{opacity:.55;cursor:default;pointer-events:none}
+  .card.coming-soon::before{display:none}
+  .card.coming-soon:hover{transform:none;box-shadow:var(--shadow-sm);border-color:var(--line)}
+  .card.coming-soon::after{background:#b8bbd0}
+  .card.coming-soon .card-icon{filter:grayscale(.9);opacity:.6}
+  .card.coming-soon .card-title{color:var(--muted)}
+  .card.coming-soon .open-hint{color:var(--muted);font-style:italic;font-weight:500}
+  .card.coming-soon .open-hint .arrow{display:none}
+  .card.coming-soon .badge{background:rgba(107,114,128,.10);color:var(--muted)}
+
   footer{text-align:center;margin-top:32px;color:var(--muted);font-size:.7rem;line-height:1.55}
   .footer-divider{width:36px;height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:0 auto 12px;border-radius:2px}
   @media (max-width:520px){
@@ -72,6 +84,7 @@
 <body>
 <div class="wrap">
   <header class="hero">
+    <div class="hero-badge">Aplicaciones educativas</div>
     <h1>Mil frases en inglés</h1>
     <div class="hero-tagline"><span class="dot" aria-hidden="true"></span>¡Solo <em>10 frases</em> al día!</div>
   </header>
@@ -87,7 +100,7 @@
   </section>
 
   <div class="stats">
-    <div class="stat"><div class="stat-num">15</div><div class="stat-label">Temas</div></div>
+    <div class="stat"><div class="stat-num" id="statThemes">—</div><div class="stat-label">Temas</div></div>
     <div class="stat"><div class="stat-num">105</div><div class="stat-label">Lecciones</div></div>
     <div class="stat"><div class="stat-num">1050</div><div class="stat-label">Frases</div></div>
   </div>
@@ -104,28 +117,33 @@
 const APPS = [
   {title:"01 · Saludos y presentaciones", description:"Saludos, presentaciones, cortesía y datos personales.", icon:"👋", link:"01-greetings.html", color:"#6b5ce7", iconBg:"rgba(107,92,231,.10)", glow:"rgba(107,92,231,.22)"},
   {title:"02 · Familia y casa", description:"Familia, carácter, habitaciones, muebles y tareas.", icon:"🏠", link:"02-family-home.html", color:"#db2777", iconBg:"rgba(219,39,119,.10)", glow:"rgba(219,39,119,.22)"},
-  {title:"03 · Comida y compras", description:"Comidas, frutas, restaurantes, supermercado y precios.", icon:"🍎", link:"03-food-shopping.html", color:"#16a34a", iconBg:"rgba(22,163,74,.10)", glow:"rgba(22,163,74,.22)"},
-  {title:"04 · Ciudad y transporte", description:"Direcciones, transporte público, aeropuerto y hotel.", icon:"🚌", link:"04-city-transport.html", color:"#0891b2", iconBg:"rgba(8,145,178,.10)", glow:"rgba(8,145,178,.22)"},
-  {title:"05 · Escuela y trabajo", description:"Aula, asignaturas, profesiones y oficina.", icon:"📚", link:"05-school-work.html", color:"#d97706", iconBg:"rgba(217,119,6,.10)", glow:"rgba(217,119,6,.22)"},
-  {title:"06 · Tiempo libre y aficiones", description:"Deportes, música, cine, juegos y planes.", icon:"🎮", link:"06-free-time.html", color:"#9333ea", iconBg:"rgba(147,51,234,.10)", glow:"rgba(147,51,234,.22)"},
-  {title:"07 · Viajes y vacaciones", description:"Reservas, aeropuerto, hotel, turismo y problemas.", icon:"✈️", link:"07-travel.html", color:"#dc2626", iconBg:"rgba(220,38,38,.10)", glow:"rgba(220,38,38,.22)"},
-  {title:"08 · Salud y cuerpo", description:"Cuerpo, síntomas, médico, farmacia y vida sana.", icon:"🩺", link:"08-health-body.html", color:"#4f46e5", iconBg:"rgba(79,70,229,.10)", glow:"rgba(79,70,229,.22)"},
-  {title:"09 · Sentimientos y opiniones", description:"Emociones, opiniones, consejos y planes.", icon:"😊", link:"09-feelings.html", color:"#e11d48", iconBg:"rgba(225,29,72,.10)", glow:"rgba(225,29,72,.22)"},
-  {title:"10 · Phrasal verbs e idioms", description:"Verbos compuestos, expresiones y frases hechas.", icon:"🎓", link:"10-idioms.html", color:"#3a3d4d", iconBg:"rgba(58,61,77,.10)", glow:"rgba(58,61,77,.22)"},
-  {title:"11 · Deportes y ejercicio", description:"Deportes, gimnasio, competiciones y vida activa.", icon:"⚽", link:"11-sports.html", color:"#059669", iconBg:"rgba(5,150,105,.10)", glow:"rgba(5,150,105,.22)"},
-  {title:"12 · Naturaleza y animales", description:"Animales, plantas, paisajes y medio ambiente.", icon:"🌳", link:"12-nature.html", color:"#65a30d", iconBg:"rgba(101,163,13,.10)", glow:"rgba(101,163,13,.22)"},
-  {title:"13 · Tecnología e internet", description:"Ordenadores, móviles, redes sociales y apps.", icon:"💻", link:"13-technology.html", color:"#0284c7", iconBg:"rgba(2,132,199,.10)", glow:"rgba(2,132,199,.22)"},
-  {title:"14 · Cultura y entretenimiento", description:"Cine, música, libros, arte y espectáculos.", icon:"🎭", link:"14-culture.html", color:"#7c3aed", iconBg:"rgba(124,58,237,.10)", glow:"rgba(124,58,237,.22)"},
-  {title:"15 · Medio ambiente y sociedad", description:"Ecología, reciclaje, noticias y vida social.", icon:"🌍", link:"15-society.html", color:"#ea580c", iconBg:"rgba(234,88,12,.10)", glow:"rgba(234,88,12,.22)"}
+
+  {title:"03 · Comida y compras", description:"Comidas, frutas, restaurantes, supermercado y precios.", icon:"🍎", link:"03-food-shopping.html", color:"#16a34a", iconBg:"rgba(22,163,74,.10)", glow:"rgba(22,163,74,.22)", comingSoon:true},
+  {title:"04 · Ciudad y transporte", description:"Direcciones, transporte público, aeropuerto y hotel.", icon:"🚌", link:"04-city-transport.html", color:"#0891b2", iconBg:"rgba(8,145,178,.10)", glow:"rgba(8,145,178,.22)", comingSoon:true},
+  {title:"05 · Escuela y trabajo", description:"Aula, asignaturas, profesiones y oficina.", icon:"📚", link:"05-school-work.html", color:"#d97706", iconBg:"rgba(217,119,6,.10)", glow:"rgba(217,119,6,.22)", comingSoon:true},
+  {title:"06 · Tiempo libre y aficiones", description:"Deportes, música, cine, juegos y planes.", icon:"🎮", link:"06-free-time.html", color:"#9333ea", iconBg:"rgba(147,51,234,.10)", glow:"rgba(147,51,234,.22)", comingSoon:true},
+  {title:"07 · Viajes y vacaciones", description:"Reservas, aeropuerto, hotel, turismo y problemas.", icon:"✈️", link:"07-travel.html", color:"#dc2626", iconBg:"rgba(220,38,38,.10)", glow:"rgba(220,38,38,.22)", comingSoon:true},
+  {title:"08 · Salud y cuerpo", description:"Cuerpo, síntomas, médico, farmacia y vida sana.", icon:"🩺", link:"08-health-body.html", color:"#4f46e5", iconBg:"rgba(79,70,229,.10)", glow:"rgba(79,70,229,.22)", comingSoon:true},
+  {title:"09 · Sentimientos y opiniones", description:"Emociones, opiniones, consejos y planes.", icon:"😊", link:"09-feelings.html", color:"#e11d48", iconBg:"rgba(225,29,72,.10)", glow:"rgba(225,29,72,.22)", comingSoon:true},
+  {title:"10 · Phrasal verbs e idioms", description:"Verbos compuestos, expresiones y frases hechas.", icon:"🎓", link:"10-idioms.html", color:"#3a3d4d", iconBg:"rgba(58,61,77,.10)", glow:"rgba(58,61,77,.22)", comingSoon:true},
+  {title:"11 · Deportes y ejercicio", description:"Deportes, gimnasio, competiciones y vida activa.", icon:"⚽", link:"11-sports.html", color:"#059669", iconBg:"rgba(5,150,105,.10)", glow:"rgba(5,150,105,.22)", comingSoon:true},
+  {title:"12 · Naturaleza y animales", description:"Animales, plantas, paisajes y medio ambiente.", icon:"🌳", link:"12-nature.html", color:"#65a30d", iconBg:"rgba(101,163,13,.10)", glow:"rgba(101,163,13,.22)", comingSoon:true},
+  {title:"13 · Tecnología e internet", description:"Ordenadores, móviles, redes sociales y apps.", icon:"💻", link:"13-technology.html", color:"#0284c7", iconBg:"rgba(2,132,199,.10)", glow:"rgba(2,132,199,.22)", comingSoon:true},
+  {title:"14 · Cultura y entretenimiento", description:"Cine, música, libros, arte y espectáculos.", icon:"🎭", link:"14-culture.html", color:"#7c3aed", iconBg:"rgba(124,58,237,.10)", glow:"rgba(124,58,237,.22)", comingSoon:true},
+  {title:"15 · Medio ambiente y sociedad", description:"Ecología, reciclaje, noticias y vida social.", icon:"🌍", link:"15-society.html", color:"#ea580c", iconBg:"rgba(234,88,12,.10)", glow:"rgba(234,88,12,.22)", comingSoon:true}
 ];
 
 const grid = document.getElementById('appsGrid');
+const statThemes = document.getElementById('statThemes');
 const check = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
 
-APPS.forEach(app=>{
-  const c = document.createElement('a');
-  c.className = 'card';
-  c.href = app.link;
+// Считаем только активные темы
+statThemes.textContent = APPS.filter(a => !a.comingSoon).length;
+
+APPS.forEach(app => {
+  const c = document.createElement(app.comingSoon ? 'div' : 'a');
+  c.className = 'card' + (app.comingSoon ? ' coming-soon' : '');
+  if(!app.comingSoon) c.href = app.link;
   c.style.setProperty('--accent', app.color);
   c.style.setProperty('--icon-bg', app.iconBg);
   c.style.setProperty('--glow', app.glow);
@@ -137,7 +155,10 @@ APPS.forEach(app=>{
     </div>
     <div class="card-right">
       <span class="badge">${check}70</span>
-      <span class="open-hint"><span class="label">Abrir</span> <span class="arrow">→</span></span>
+      <span class="open-hint">
+        <span class="label">${app.comingSoon ? 'Pronto' : 'Abrir'}</span>
+        <span class="arrow">→</span>
+      </span>
     </div>`;
   grid.appendChild(c);
 });
